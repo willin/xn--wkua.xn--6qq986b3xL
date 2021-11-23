@@ -1,0 +1,10 @@
+root: true
+extends:
+  - next/core-web-vitals
+  - eslint:recommended
+  - plugin:@typescript-eslint/recommended-requiring-type-checking
+  - prettier
+parserOptions:
+  project: ./tsconfig.json
+  extraFileExtensions:
+    - .mjs
