@@ -46,6 +46,15 @@ const Home: NextPage = () => {
           </a>
         </div>
       </main>
+      <footer className='text-center pt-10 text-sm'>
+        <a href='https://github.com/willin' target='_blank' rel='noopener noreferrer'>
+          Willin Wang
+        </a>{' '}
+        用{' '}
+        <a href='https://afdian.net/@willin' target='_blank' rel='noopener noreferrer'>
+          爱发电
+        </a>
+      </footer>
     </div>
   );
 };
