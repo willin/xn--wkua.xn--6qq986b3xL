@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum DomainType {
+  A
+  AAAA
+  CNAME
+}
+
+enum Status {
+  PENDING
+  ACTIVE
+  DELETED
+  BANNED
+}
+
+model Domains {
+  id        String      @id @default(cuid()) @db.VarChar(32)
+  no        Int         @default(autoincrement()) @db.UnsignedInt
+  name      String      @unique @db.VarChar(255)
+  punycode  String      @unique @db.VarChar(255)
+  type      DomainType  @default(CNAME)
+  content   String      @default("") @db.VarChar(255)
+  proxied   Boolean     @default(true)
+  user      String      @default("") @db.VarChar(32)
+  status    Status      @default(ACTIVE)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  @@index([no])
+  @@index([user, status, createdAt])
+}
+
+model Emails {
+  id        String      @id @default(cuid()) @db.VarChar(32)
+  no        Int         @default(autoincrement()) @db.UnsignedInt
+  name      String      @unique @db.VarChar(255)
+  punycode  String      @unique @db.VarChar(255)
+  content   String      @default("") @db.VarChar(255)
+  user      String      @default("") @db.VarChar(32)
+  status    Status      @default(PENDING)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  @@index([no])
+  @@index([user, status, createdAt])
+}
