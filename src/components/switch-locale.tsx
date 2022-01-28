@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import clsx from 'clsx';
+import clsx from 'classnames';
 import useI18n from '../hooks/use-i18n';
 import { Locales } from '../../i18n';
 

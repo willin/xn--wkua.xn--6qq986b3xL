@@ -1,30 +1,97 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@tailwind variants;
 
 @layer base {
-  @font-face {
-    font-family: 'logo';
-    src: url('/fonts/logo.eot'); /* IE9 */
-    src: url('/fonts/logo.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('/fonts/logo.woff') format('woff'),
-      /* chrome、firefox */ url('/fonts/logo.ttf') format('truetype'); /* chrome、firefox、opera、Safari, Android, iOS 4.2+ */
+  * {
+    cursor: url('/default.cur'), default;
+  }
+  a,
+  a *,
+  button,
+  button *,
+  .btn,
+  .btn * {
+    cursor: url('/pointer.cur'), pointer !important;
+  }
 
-    font-style: normal;
-    font-weight: normal;
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply text-black dark:text-white;
+    transition: background-color 1s linear, color 0.5s linear;
+    min-height: 100vh;
+  }
+  main {
+    min-width: 320px;
+    max-width: 640px;
   }
 
   body {
     @apply text-gray-100;
     background-color: #222222;
-    background: repeating-linear-gradient(45deg, #2b2b2b 0%, #2b2b2b 10%, #222222 0%, #222222 50%) 0 / 15px 15px;
+    background: repeating-linear-gradient(
+        45deg,
+        #2b2b2b 0%,
+        #2b2b2b 10%,
+        #222222 0%,
+        #222222 50%
+      )
+      0 / 15px 15px;
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
   }
 
-  #logo {
+  pre {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  /* Remove Safari input shadow on mobile */
+  input[type='text'],
+  input[type='email'] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
+  table {
+    display: block;
+    max-width: fit-content;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  a[target='_blank'],
+  a[href]:not(:where(
+  /* exclude hash only links */
+  [href^="#"],
+  /* exclude relative links */
+  [href^="/"],
+  /* domains to exclude */
+  [href*="://xn--wkua.xn--6qq986b3xl/"],
+  /* subdomains to exclude */
+  [href*="://憨憨.我爱你"],
+)):after {
+    /* content: ' ↗️ '; */
+    content: ' '
+      url(data:image/svg+xm;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAYAAABWdVznAAAAV0lEQVR4Xq2QwQ2AAAwC3cmd2Kk7sRP64CEJ9qOX8OPatMc/QKppnEPhTmJh23CLiwAqIw21CybKQ28qQi37WGFYBJcwfJQpP8LlEHKyZMF0IdmF13zlAjZ/6H4wb+mUAAAAAElFTkSuQmCC);
+  }
+
+  @font-face {
     font-family: 'logo';
+    src: url('/fonts/logo.eot'); /* IE9 */
+    src: url('/fonts/logo.eot?#iefix') format('embedded-opentype'),
+      /* IE6-IE8 */ url('/fonts/logo.woff') format('woff'),
+      /* chrome、firefox */ url('/fonts/logo.ttf') format('truetype'); /* chrome、firefox、opera、Safari, Android, iOS 4.2+ */
+
+    font-style: normal;
+    font-weight: normal;
   }
 }
 
@@ -34,7 +101,12 @@
     -webkit-transform: rotate(-3deg);
     transform: rotate(-3deg);
   }
+
+  .font {
+    font-family: 'logo';
+  }
   #logo {
+    font-family: 'logo';
     font-size: 5vw;
   }
   #trav {
@@ -46,7 +118,8 @@
   #fade {
     opacity: 0.8;
     color: #ebffff;
-    text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.3), 0 0px 15px #fff, 0 0 10px #38eeff, 0 0 50px #38eeff;
+    text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.3), 0 0px 15px #fff,
+      0 0 10px #38eeff, 0 0 50px #38eeff;
     -webkit-animation: fade 3s infinite alternate;
     -moz-animation: fade 3s infinite alternate;
     -o-animation: fade 3s infinite alternate;
@@ -56,7 +129,8 @@
     margin: 0 auto;
     text-align: center;
     color: #ebffff;
-    text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.3), 0 0px 15px #fff, 0 0 10px #38eeff, 0 0 50px #38eeff;
+    text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.3), 0 0px 15px #fff,
+      0 0 10px #38eeff, 0 0 50px #38eeff;
   }
   .neon-purple {
     /* font-family: 'League Script', Helvetica, Arial, sans-serif; */
@@ -64,7 +138,8 @@
     margin: 0 auto;
     text-align: center;
     color: #ccf;
-    text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.5), 0 0 20px #fff, 0 0 10px #7d26cd, 0 0 50px #7d26cd;
+    text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.5), 0 0 20px #fff, 0 0 10px #7d26cd,
+      0 0 50px #7d26cd;
   }
   @-moz-keyframes blink {
     70% {

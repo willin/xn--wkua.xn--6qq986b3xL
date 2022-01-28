@@ -3,29 +3,38 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "build:prisma": "PRISMA_CLIENT_ENGINE_TYPE='dataproxy' npx prisma generate",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
-    "clsx": "^1.1.1",
+    "@authing/nextjs": "^0.0.0",
+    "@prisma/client": "^3.8.1",
+    "classnames": "^2.3.1",
+    "iron-session": "^6.0.5",
     "next": "12.0.4",
+    "punycode": "^2.1.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "rosetta": "^1.1.0"
+    "rosetta": "^1.1.0",
+    "swr": "^1.2.0"
   },
   "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^4.1.3",
     "@types/node": "16.11.9",
+    "@types/punycode": "^2.1.0",
     "@types/react": "17.0.35",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "autoprefixer": "^10.4.0",
+    "daisyui": "^1.25.4",
     "eslint": "7",
     "eslint-config-next": "12.0.4",
     "eslint-config-prettier": "^8.3.0",
     "postcss": "^8.3.11",
-    "prettier": "^2.4.1",
+    "prettier": "^2.5.1",
     "prisma": "^3.8.1",
-    "tailwindcss": "^2.2.19",
+    "tailwindcss": "^3.0.17",
     "typescript": "4.5.2"
   }
 }
