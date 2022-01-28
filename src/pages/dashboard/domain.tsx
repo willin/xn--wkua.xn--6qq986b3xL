@@ -1,5 +1,4 @@
 import { withIronSessionSsr } from 'iron-session/next';
-import { InferGetServerSidePropsType } from 'next';
 import Link from 'next/link';
 
 import { Layout } from '../../components/layout';
@@ -7,12 +6,10 @@ import { sessionOptions } from '../../lib/session';
 import { prisma } from '../../lib/prisma';
 import { User } from '../api/me';
 import { CreateDomain } from '../../components/domain/create';
-import { Status } from '@prisma/client';
+import { Domains, Status } from '@prisma/client';
 import { EditDomain } from '../../components/domain/edit';
 
-export default function Index({
-  domain
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Index({ domain }: { domain: Domains }) {
   return (
     <Layout>
       <main className='text-center'>
@@ -54,7 +51,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({
     website: user.profile
   };
 
-  const [domain = {}] = await prisma.domains.findMany({
+  const [domain] = await prisma.domains.findMany({
     select: {
       id: true,
       no: true,
@@ -77,7 +74,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({
     }
   });
 
-  if (domain && domain?.createdAt) {
+  if (typeof domain === 'object') {
     Object.assign(domain, {
       // eslint-disable-next-line
       createdAt: domain.createdAt.toISOString(),
@@ -86,7 +83,12 @@ export const getServerSideProps = withIronSessionSsr(async function ({
     });
   }
   return {
-    props: { user: userInfo, domain }
+    props: {
+      user: userInfo,
+      domain: {
+        ...(domain ? domain : {})
+      }
+    }
   };
 },
 sessionOptions);

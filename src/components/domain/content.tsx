@@ -33,9 +33,9 @@ export function validateContent(t: DomainType, c: string) {
   }
 }
 
-export function Form({ domain }: { domain: Domains }) {
-  const [content, setContent] = useState(domain.content);
-  const [type, setType] = useState(domain.type);
+export function Form({ domain }: { domain: Partial<Domains> }) {
+  const [content, setContent] = useState(domain.content || '');
+  const [type, setType] = useState<DomainType>(domain.type || DomainType.CNAME);
   const [proxied, setProxied] = useState(domain.proxied ?? true);
 
   return (
@@ -48,7 +48,7 @@ export function Form({ domain }: { domain: Domains }) {
           name='type'
           defaultValue={type}
           className='select select-bordered w-full max-w-xs'
-          onChange={(e) => setType(e.target.value)}>
+          onChange={(e) => setType(e.target.value as DomainType)}>
           <option value={DomainType.CNAME}>CNAME</option>
           <option value={DomainType.A}>A: IPv4</option>
           <option value={DomainType.AAAA}>AAAA: IPv6</option>
@@ -83,7 +83,7 @@ export function Form({ domain }: { domain: Domains }) {
             name='proxied'
             checked={proxied}
             className='toggle toggle-secondary'
-            onChange={setProxied.bind(this, !proxied)}
+            onChange={setProxied.bind(null, !proxied)}
           />
         </label>
       </div>
@@ -96,7 +96,7 @@ export function Form({ domain }: { domain: Domains }) {
         </label>
         <div className='mockup-code text-sm'>
           <pre>
-            <code>{toASCII(`${domain.name}.憨憨.我爱你`)}</code>
+            <code>{toASCII(`${domain.name || ''}.憨憨.我爱你`)}</code>
           </pre>
         </div>
       </div>

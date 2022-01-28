@@ -6,7 +6,10 @@ import { User } from '../me';
 import { Domains, Status } from '@prisma/client';
 import { updateDomain } from '../../../lib/cloudflare';
 
-async function Route(req: NextApiRequest, res: NextApiResponse<User>) {
+async function Route(
+  req: NextApiRequest,
+  res: NextApiResponse<{ success: boolean }>
+) {
   const user = req.session.user as User;
   if (user) {
     const form = req.body as Pick<

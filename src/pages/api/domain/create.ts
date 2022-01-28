@@ -6,7 +6,10 @@ import { User } from '../me';
 import { Domains, Status } from '@prisma/client';
 import { createDomain } from '../../../lib/cloudflare';
 
-async function Route(req: NextApiRequest, res: NextApiResponse<User>) {
+async function Route(
+  req: NextApiRequest,
+  res: NextApiResponse<{ success: boolean; id?: string }>
+) {
   const user = req.session.user as User;
   if (user) {
     const form = req.body as Pick<
@@ -26,7 +29,7 @@ async function Route(req: NextApiRequest, res: NextApiResponse<User>) {
         id,
         user: user.sub,
         status: Status.ACTIVE
-      }
+      } as Domains
     });
     res.json({ success: !!record.id, id });
   } else {

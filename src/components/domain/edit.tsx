@@ -1,16 +1,23 @@
-import { type FormEvent, useState } from 'react';
-import { Domains } from '@prisma/client';
+import { type SyntheticEvent, useState } from 'react';
+import { Domains, DomainType } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { Form, validateContent } from './content';
 
-export function EditDomain({ domain = {} }: { domain: Domains }) {
+export function EditDomain(
+  { domain }: { domain: Domains } = { domain: {} as Domains }
+) {
   const [name, setName] = useState(domain.name);
   const router = useRouter();
 
-  async function submit(e: FormEvent) {
+  async function submit(e: SyntheticEvent) {
     e.preventDefault();
-    const type = (e.currentTarget.type as HTMLInputElement).value;
-    const content = (e.currentTarget.content as HTMLInputElement).value;
+    const target = e.currentTarget as typeof e.currentTarget & {
+      type: { value: DomainType };
+      content: { value: string };
+      proxied: { checked: boolean };
+    };
+    const type = target.type.value;
+    const content = target.content.value;
 
     if (!validateContent(type, content)) {
       return;
@@ -20,7 +27,7 @@ export function EditDomain({ domain = {} }: { domain: Domains }) {
       id: domain.id,
       type,
       content,
-      proxied: (e.currentTarget.proxied as HTMLInputElement).checked
+      proxied: target.proxied.checked
     };
     const res = await fetch(`/api/domain/update`, {
       method: 'POST',
@@ -38,7 +45,7 @@ export function EditDomain({ domain = {} }: { domain: Domains }) {
     }
   }
 
-  async function submitDelete(e: FormEvent) {
+  async function submitDelete(e: SyntheticEvent) {
     e.preventDefault();
     const confirmed = confirm('确定要删除吗？被删除的域名将不能够被再次注册哦');
     if (!confirmed) {

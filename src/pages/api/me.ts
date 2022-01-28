@@ -24,7 +24,7 @@ function userRoute(req: NextApiRequest, res: NextApiResponse<User>) {
     res.json({
       isLoggedIn: false,
       username: ''
-    });
+    } as User);
   }
 }
 

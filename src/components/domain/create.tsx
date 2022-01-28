@@ -1,17 +1,17 @@
 import clsx from 'classnames';
 import { toASCII } from 'punycode';
-import { type FormEvent, useState } from 'react';
-import { Domains } from '@prisma/client';
+import { useState, type SyntheticEvent } from 'react';
+import { DomainType } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { Form, validateContent } from './content';
 
-export function CreateDomain({ domain = {} }: { domain: Domains }) {
-  const [name, setName] = useState(domain.name);
+export function CreateDomain() {
+  const [name, setName] = useState('');
   const [valid, setValid] = useState(false);
   const [checked, setChecked] = useState(false);
   const router = useRouter();
 
-  async function searchDomain(e: FormEvent) {
+  async function searchDomain(e: SyntheticEvent) {
     e.preventDefault();
     const res = await fetch(
       `/api/domain/search?name=${encodeURIComponent(name)}`,
@@ -24,17 +24,22 @@ export function CreateDomain({ domain = {} }: { domain: Domains }) {
     setChecked(true);
   }
 
-  async function submit(e: FormEvent) {
+  async function submit(e: SyntheticEvent) {
     e.preventDefault();
-    const type = (e.currentTarget.type as HTMLInputElement).value;
-    const content = (e.currentTarget.content as HTMLInputElement).value;
+    const target = e.currentTarget as typeof e.currentTarget & {
+      type: { value: DomainType };
+      content: { value: string };
+      proxied: { checked: boolean };
+    };
+    const type = target.type.value;
+    const content = target.content.value;
     if (!validateContent(type, content)) {
       return;
     }
     const form = {
       type,
       content,
-      proxied: (e.currentTarget.proxied as HTMLInputElement).checked,
+      proxied: target.proxied.checked,
       name,
       punycode: toASCII(name)
     };

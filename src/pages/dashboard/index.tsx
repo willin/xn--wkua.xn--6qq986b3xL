@@ -1,5 +1,4 @@
 import { withIronSessionSsr } from 'iron-session/next';
-import { InferGetServerSidePropsType } from 'next';
 import Link from 'next/link';
 
 import { Layout } from '../../components/layout';
@@ -10,7 +9,18 @@ import { User } from '../api/me';
 export default function Index({
   user,
   total
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+}: {
+  user: {
+    id: string;
+    username: string;
+    avatar: string;
+    website: string;
+  };
+  total: {
+    domains: number;
+    emails: number;
+  };
+}) {
   return (
     <Layout>
       <main className='text-center'>
