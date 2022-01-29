@@ -5,6 +5,7 @@ import { prisma } from '../../../lib/prisma';
 import { User } from '../me';
 import { Domains, Status } from '@prisma/client';
 import { createDomain } from '../../../lib/cloudflare';
+import { RestrictedNames } from '../../../config';
 
 async function Route(
   req: NextApiRequest,
@@ -16,6 +17,12 @@ async function Route(
       Domains,
       'name' | 'content' | 'type' | 'proxied'
     >;
+    if (RestrictedNames.has(form.name)) {
+      res.json({
+        success: false
+      });
+      return;
+    }
     const id = await createDomain(form);
     if (!id) {
       res.json({
