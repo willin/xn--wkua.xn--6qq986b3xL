@@ -26,8 +26,8 @@ enum Status {
 model Domains {
   id        String      @id @default(cuid()) @db.VarChar(32)
   no        Int         @default(autoincrement()) @db.UnsignedInt
-  name      String      @unique @db.VarChar(255)
-  punycode  String      @unique @db.VarChar(255)
+  name      String      @db.VarChar(255)
+  punycode  String      @db.VarChar(255)
   type      DomainType  @default(CNAME)
   content   String      @default("") @db.VarChar(255)
   proxied   Boolean     @default(true)
@@ -37,14 +37,15 @@ model Domains {
   updatedAt DateTime    @updatedAt
 
   @@index([no])
+  @@index([name, punycode])
   @@index([user, status, createdAt])
 }
 
 model Emails {
   id        String      @id @default(cuid()) @db.VarChar(32)
   no        Int         @default(autoincrement()) @db.UnsignedInt
-  name      String      @unique @db.VarChar(255)
-  punycode  String      @unique @db.VarChar(255)
+  name      String      @db.VarChar(255)
+  punycode  String      @db.VarChar(255)
   content   String      @default("") @db.VarChar(255)
   user      String      @default("") @db.VarChar(32)
   status    Status      @default(PENDING)
@@ -52,5 +53,6 @@ model Emails {
   updatedAt DateTime    @updatedAt
 
   @@index([no])
+  @@index([name, punycode])
   @@index([user, status, createdAt])
 }

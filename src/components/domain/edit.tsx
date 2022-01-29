@@ -47,7 +47,7 @@ export function EditDomain(
 
   async function submitDelete(e: SyntheticEvent) {
     e.preventDefault();
-    const confirmed = confirm('确定要删除吗？被删除的域名将不能够被再次注册哦');
+    const confirmed = confirm('确定要删除吗？');
     if (!confirmed) {
       return;
     }
@@ -98,6 +98,7 @@ export function EditDomain(
       </div>
 
       <Form domain={domain} />
+
       <div className='flex flex-row justify-center mt-2'>
         <button type='submit' className='btn btn-primary'>
           保存

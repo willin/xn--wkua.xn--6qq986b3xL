@@ -4,6 +4,12 @@ export const validateDomain = (domain: string): boolean => {
   );
 };
 
+export const validateEmail = (email: string): boolean => {
+  return /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/.test(
+    email
+  );
+};
+
 export const validateIpv4 = (ip: string): boolean => {
   return /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(
     ip

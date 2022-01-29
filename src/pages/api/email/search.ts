@@ -17,7 +17,7 @@ async function Route(
       });
       return;
     }
-    const data = await prisma.domains.findMany({
+    const data = await prisma.emails.findMany({
       take: 1,
       select: { id: true },
       where: {

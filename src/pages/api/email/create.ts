@@ -3,8 +3,7 @@ import { sessionOptions } from '../../../lib/session';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '../../../lib/prisma';
 import { User } from '../me';
-import { Domains, Status } from '@prisma/client';
-import { createDomain } from '../../../lib/cloudflare';
+import { Emails, Status } from '@prisma/client';
 import { RestrictedNames } from '../../../config';
 
 async function Route(
@@ -13,18 +12,15 @@ async function Route(
 ) {
   const user = req.session.user as User;
   if (user) {
-    const form = req.body as Pick<
-      Domains,
-      'name' | 'content' | 'type' | 'proxied'
-    >;
+    const form = req.body as Pick<Emails, 'name' | 'content'>;
     if (RestrictedNames.has(form.name)) {
       res.json({
         success: false
       });
       return;
     }
-    // 每人限制注册一个
-    const domains = await prisma.domains.count({
+    // 每人限制注册 2 个
+    const emails = await prisma.emails.count({
       where: {
         user: user.sub,
         status: {
@@ -32,29 +28,21 @@ async function Route(
         }
       }
     });
-    if (domains >= 1) {
+    if (emails >= 2) {
       res.json({
         success: false
       });
       return;
     }
 
-    const id = await createDomain(form);
-    if (!id) {
-      res.json({
-        success: false
-      });
-      return;
-    }
-    const record = await prisma.domains.create({
+    const record = await prisma.emails.create({
       data: {
         ...form,
-        id,
         user: user.sub,
-        status: Status.ACTIVE
-      } as Domains
+        status: Status.PENDING
+      } as Emails
     });
-    res.json({ success: !!record.id, id });
+    res.json({ success: !!record.id });
   } else {
     res.json({
       success: false

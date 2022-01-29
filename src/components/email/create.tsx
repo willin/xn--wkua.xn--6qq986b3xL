@@ -1,12 +1,12 @@
 import clsx from 'classnames';
-import { toASCII } from 'punycode';
-import { useEffect, useState, type SyntheticEvent } from 'react';
-import { DomainType } from '@prisma/client';
 import { useRouter } from 'next/router';
-import { Form, validateContent } from './content';
+import { toASCII } from 'punycode';
+import { SyntheticEvent, useEffect, useState } from 'react';
+import { validateEmail } from '../../lib/utils';
 
-export function CreateDomain() {
+export function CreateEmail() {
   const [name, setName] = useState('');
+  const [content, setContent] = useState('');
   const [valid, setValid] = useState(false);
   const [checked, setChecked] = useState(false);
   const router = useRouter();
@@ -15,10 +15,10 @@ export function CreateDomain() {
     setValid(false);
   }, [name]);
 
-  async function searchDomain(e: SyntheticEvent) {
+  async function searchEmail(e: SyntheticEvent) {
     e.preventDefault();
     const res = await fetch(
-      `/api/domain/search?name=${encodeURIComponent(name)}`,
+      `/api/email/search?name=${encodeURIComponent(name)}`,
       {
         method: 'POST'
       }
@@ -30,24 +30,15 @@ export function CreateDomain() {
 
   async function submit(e: SyntheticEvent) {
     e.preventDefault();
-    const target = e.currentTarget as typeof e.currentTarget & {
-      type: { value: DomainType };
-      content: { value: string };
-      proxied: { checked: boolean };
-    };
-    const type = target.type.value;
-    const content = target.content.value;
-    if (!validateContent(type, content)) {
+    if (!validateEmail(content)) {
       return;
     }
     const form = {
-      type,
       content,
-      proxied: target.proxied.checked,
       name,
       punycode: toASCII(name)
     };
-    const res = await fetch(`/api/domain/create`, {
+    const res = await fetch(`/api/email/create`, {
       method: 'POST',
       body: JSON.stringify(form),
       headers: {
@@ -66,13 +57,13 @@ export function CreateDomain() {
     <form onSubmit={submit}>
       <div className='form-control'>
         <label className='label'>
-          <span className='label-text'>搜索域名</span>
+          <span className='label-text'>搜索地址</span>
         </label>
 
         <div className='relative'>
           <input
             type='text'
-            placeholder='域名'
+            placeholder='地址'
             name='name'
             defaultValue={name}
             className={clsx('w-full pr-16 input input-bordered', {
@@ -90,16 +81,41 @@ export function CreateDomain() {
                 'btn-primary': !checked || valid,
                 'btn-error': checked && !valid
               })}
-              onClick={searchDomain}>
-              .憨憨.我爱你
+              onClick={searchEmail}>
+              @憨憨.我爱你
             </button>
           </div>
         </div>
       </div>
 
-      {valid && <Form domain={{ name }} />}
+      {valid && (
+        <div className='form-control'>
+          <label className='label'>
+            <span className='label-text'>转发邮箱</span>
+          </label>
+          <input
+            type='text'
+            name='content'
+            placeholder='yourname@qq.com'
+            defaultValue={content}
+            onChange={(e) => setContent(e.target.value.trim())}
+            className={clsx('input', {
+              'input-error': !validateEmail(content),
+              'input-bordered': !validateEmail(content)
+            })}
+          />
+          {content && !validateEmail(content) && (
+            <label className='label'>
+              <span className='label-text-alt'>输入邮箱的格式不正确</span>
+            </label>
+          )}
+        </div>
+      )}
 
-      <button type='submit' className='btn btn-primary mt-2' disabled={!valid}>
+      <button
+        type='submit'
+        className='btn btn-primary mt-2'
+        disabled={!valid || !validateEmail(content)}>
         注册
       </button>
     </form>

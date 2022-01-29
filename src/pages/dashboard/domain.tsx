@@ -44,13 +44,6 @@ export const getServerSideProps = withIronSessionSsr(async function ({
     };
   }
 
-  const userInfo = {
-    id: user.sub,
-    username: user.nickname || user.name || user.username,
-    avatar: user.picture,
-    website: user.profile
-  };
-
   const [domain] = await prisma.domains.findMany({
     select: {
       id: true,
@@ -67,7 +60,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({
     },
     take: 1,
     where: {
-      user: userInfo.id,
+      user: user.sub,
       status: {
         in: [Status.ACTIVE, Status.PENDING]
       }
@@ -84,7 +77,6 @@ export const getServerSideProps = withIronSessionSsr(async function ({
   }
   return {
     props: {
-      user: userInfo,
       domain: {
         ...(domain ? domain : {})
       }

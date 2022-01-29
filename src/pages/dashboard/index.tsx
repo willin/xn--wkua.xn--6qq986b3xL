@@ -67,24 +67,29 @@ export default function Index({
               </div>
             </a>
           </Link>
-          <div className='stat'>
-            <div className='stat-figure text-secondary'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                className='inline-block w-8 h-8 stroke-current'>
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth='2'
-                  d='M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'></path>
-              </svg>
-            </div>
-            <div className='stat-title'>提供邮箱</div>
-            <div className='stat-value text-info'>{total.emails}</div>
-            <div className='stat-desc'>暂未开始</div>
-          </div>
+
+          <Link href='/dashboard/email' passHref>
+            <a>
+              <div className='stat'>
+                <div className='stat-figure text-secondary'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    className='inline-block w-8 h-8 stroke-current'>
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth='2'
+                      d='M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'></path>
+                  </svg>
+                </div>
+                <div className='stat-title'>提供邮箱</div>
+                <div className='stat-value text-info'>{total.emails}</div>
+                <div className='stat-desc'>点击进入</div>
+              </div>
+            </a>
+          </Link>
         </div>
       </main>
     </Layout>
@@ -109,28 +114,10 @@ export const getServerSideProps = withIronSessionSsr(async function ({
     };
   }
 
-  const [[{ no: domains = 0 } = {}], [{ no: emails = 0 } = {}]] =
-    await Promise.all([
-      prisma.domains.findMany({
-        take: 1,
-        select: {
-          no: true
-        },
-        orderBy: {
-          no: 'desc'
-        }
-      }),
-      prisma.emails.findMany({
-        take: 1,
-        select: {
-          no: true
-        },
-        orderBy: {
-          no: 'desc'
-        }
-      })
-    ]);
-
+  const [emails, domains] = await Promise.all([
+    prisma.emails.count(),
+    prisma.domains.count()
+  ]);
   const userInfo = {
     id: user.sub,
     username: user.nickname || user.name || user.username,
