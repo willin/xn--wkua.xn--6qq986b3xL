@@ -39,6 +39,28 @@ async function Route(
       return;
     }
 
+    const count = await prisma.domains.count({
+      where: {
+        status: {
+          in: [Status.ACTIVE, Status.PENDING, Status.BANNED]
+        },
+        OR: [
+          {
+            name: form.name
+          },
+          {
+            punycode: form.name
+          }
+        ]
+      }
+    });
+    if (count >= 1) {
+      res.json({
+        success: false
+      });
+      return;
+    }
+
     const id = await createDomain(form);
     if (!id) {
       res.json({

@@ -17,9 +17,7 @@ async function Route(
       });
       return;
     }
-    const data = await prisma.emails.findMany({
-      take: 1,
-      select: { id: true },
+    const count = await prisma.emails.count({
       where: {
         status: {
           in: [Status.ACTIVE, Status.PENDING, Status.BANNED]
@@ -35,7 +33,7 @@ async function Route(
       }
     });
     res.json({
-      valid: data.length === 0
+      valid: count === 0
     });
   } else {
     res.json({
