@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build:prisma": "PRISMA_CLIENT_ENGINE_TYPE='dataproxy' npx prisma generate",
+    "build:prisma": "npx prisma generate",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
