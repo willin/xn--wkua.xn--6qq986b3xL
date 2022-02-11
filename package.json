@@ -9,8 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@authing/nextjs": "^0.0.0",
-    "@authing/remix": "^0.1.1",
+    "@authing/nextjs": "^0.1.1",
     "@prisma/client": "^3.8.1",
     "classnames": "^2.3.1",
     "iron-session": "^6.0.5",
