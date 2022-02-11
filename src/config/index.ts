@@ -7,6 +7,9 @@ export const clientSecret =
 export const appDomain =
   process.env.AUTHING_CLIENT_DOMAIN || 'https://remix.authing.cn';
 
+export const ssoDomain =
+  process.env.AUTHING_SSO_DOMAIN || 'https://remix-sso.authing.cn';
+
 export const redirectUri =
   process.env.AUTHING_REDIRECT_URI || 'http://localhost:3000/api/callback';
 

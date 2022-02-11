@@ -7,6 +7,11 @@
   resolved "https://registry.yarnpkg.com/@authing/nextjs/-/nextjs-0.0.0.tgz#c910ba9a0d3f62d70b15c0f0f5896b777c7686a9"
   integrity sha512-EUV69IM7qbVfxTcNGY7eOHUdqk1OYkCwXl8OqrFpWJqO/Bf7msOjY9nSTGl4X+t43kOaI3+S0iQEzHcTVv5XIA==
 
+"@authing/remix@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@authing/remix/-/remix-0.1.1.tgz#563852bb2364fdf2b0e7badb4bab6cd1d4508d71"
+  integrity sha512-ZdshXob15VuyHY97oDbuSSgRTc7ZOi/H5X4dsJHr/KjFZ7x7iF3GRhByfRBM3V5nkjiVPyIqONlQ29KtnyURew==
+
 "@babel/code-frame@7.12.11":
   version "7.12.11"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.12.11.tgz#f4ad435aa263db935b8f10f2c552d23fb716a63f"
