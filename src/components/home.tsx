@@ -15,7 +15,7 @@ export function Home() {
       </div>
       <div className='text-center pt-10'>
         {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-        <a href='/api/login'>开始申请 ❤ Start Apply</a>
+        <a href='https://github.com/willin/xn--wkua.xn--6qq986b3xL/issues'>开始申请 ❤ Start Apply</a>
       </div>
     </main>
   );
